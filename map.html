@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<LINK REL=StyleSheet HREF="css/bootstrap.css" TYPE="text/css" MEDIA=screen>
+
+<!This is the navigation bar>
+
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">jasoncr.com</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+      <ul class="nav navbar-nav">
+        <li><a href="about.html">About</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="about.html">About</a></li>
+            <li><a href="map.html">Bubble Map</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input class="form-control" placeholder="Search" type="text">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="mailto:jasoncrodriguez@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<body>
+    <div id="content">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+  <script src="leaflet/leaflet.ajax.min.js" type="text/javascript"></script>
+
+  <div class="container-fluid">
+    <div class="row">
+       <h1> College Scorecard Map </h1>
+       <p> The map contains US Universities plotted at the center of their zipcodes.  The bubble size represents the fall undergrad class size</p>
+    </div>
+    <div class="row">
+       <div id="mapid"></div>
+
+       <script>
+        var mymap = L.map('mapid').setView([38.57, -120.71], 5);
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(mymap);
+	
+       	var geojsonMarkerOptions = {
+            radius: 8,
+            fillColor: "#ff7800",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+        
+        function onEachFeature(feature, layer) {
+            var popupContent = "<p>This is the size: " +
+                    feature.properties.size + "</p>";
+            if (feature.properties && feature.properties.popupContent) {
+                popupContent += feature.properties.popupContent;
+            }
+            layer.bindPopup(popupContent);
+        }
+        
+        var geojsonLayer = new L.GeoJSON.AJAX("ex.geojson", {
+        
+        onEachFeature:onEachFeature,
+        
+        pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 100,
+                    fillColor: "#ff7800",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+            }
+        });        
+        
+        geojsonLayer.addTo(mymap);
+        
+	</script>
+    </div>
+  </div>
+</div>
+    <div id="footer">
+        
+        &copy; Copyright 2016 by <a href="http://www.jasoncr.com/">Jason C Rodriguez</a>.
+        
+    </div>
+</body>
+</html>
